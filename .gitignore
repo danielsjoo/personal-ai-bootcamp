@@ -1,0 +1,5 @@
+data/*
+!data/.gitkeep
+pre_trained_models/*
+!pre_trained_models/.gitkeep
+venv
