@@ -42,9 +42,11 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
 ## Module 4: Convolutional Neural Networks
 10. fashion_mnist_cnn.ipynb
    1.  Convolution layers
-   2. 
+   2.  Batch normalization
+11. cifar10_cnn.ipynb
+   1.  Data augmentation
+   2.  Transfer learning
 
-
-## Module 5: Advanced Attention and Axial Transformers
+## Module 5: Axial Attention
 ## Module 6: Graph Neural Networks
 ## Capstone: Alphafold
