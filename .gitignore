@@ -1,5 +1,6 @@
-data/*
-!data/.gitkeep
-pre_trained_models/*
-!pre_trained_models/.gitkeep
+module1/data/*
+!module1/data/.gitkeep
+module2/pre_trained_models/*
+!module2/pre_trained_models/.gitkeep
+module5/pytorch_gpt/my_trained_gpt_model
 venv
