@@ -55,22 +55,11 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
     1.  Pytorch abstraction
     2.  Hugging Face datasets + tokenizers
     3.  Running remotely on HPC
-13. cifar20_cnn.ipynb (on hold)
+13. cifar100_cnn.ipynb
     1. tensorboard: visualizing metrics
-    2. fine tuning
-    3. distributing training
-    4. gradio for interaction
+    2. distributing training
 
-## Module 6: Advanced Attention
-14.  Axial Self Attention on satellite imagery
-    1.  First non toy model
-1.  Triangular Self Attention
-
-## Module 7: Alphafold
-16. Graph Neural Networks
-17. Alphafold Evoformer block
-   
-## Later Topics
-1. Image Generation
-2. Adversarial Networks
-3. Reinforcement Learning
+## Module 6: Alphafold
+1.  Axial Self Attention
+2.  Graph Neural Networks
+3.  Alphafold Evoformer block
