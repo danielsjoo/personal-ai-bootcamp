@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=train_cnn
 #SBATCH --nodes=1
-#SBATCH --partition=gpu
+#SBATCH --partition=gpu_devel
 #SBATCH --ntasks=2
-#SBATCH --gpus=rtx_5000_ada:2
-#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:2
+#SBATCH --cpus-per-task=6
 #SBATCH --mem=64G
 #SBATCH --output=logs/train_sh_%j.log
-#SBATCH --time=00:30:00
+#SBATCH --time=00:15:00
 #SBATCH --mail-user=daniel.sh.joo@gmail.com
 #SBATCH --mail-type=ALL
 
@@ -35,7 +35,13 @@ nvitop -1 > logs/${timestamp}_gpu_log.csv &
 NVSMI_PID=$!
 
 #training script
-srun --ntasks=2 --gpus-per-task=1 torchrun scripts/ddp_train.py ${timestamp} &
+export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
+echo "Using port ${MASTER_PORT} for torchrun"
+
+srun --export=ALL --ntasks=1 --gpus=2 torchrun --nproc_per_node=2 \
+--rdzv-backend=c10d \
+--rdzv-endpoint="localhost:${MASTER_PORT}" \
+scripts/ddp_train.py ${timestamp} &
 TRAIN_PID=$!
 
 #pidstat
@@ -57,7 +63,7 @@ monitor_process() {
 
         # Check if the process is still running
         if [ -z "$stats" ]; then
-            echo "Process $2 has finished. Stopping monit or."
+            echo "Process $2 has finished. Stopping monitor."
             break
         fi
 

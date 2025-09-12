@@ -10,23 +10,24 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
 import torch.distributed as dist
 import sys
+import os
 
 # Hyperparameters
 batch_size = 64
 learning_rate=1e-4
 epochs = 10
 
-device = "cuda"
 dist.init_process_group("nccl")
-rank = dist.get_rank()
-world_size= dist.get_world_size()
-torch.cuda.set_device(rank)
+local_rank = int(os.environ["LOCAL_RANK"])
+world_size = dist.get_world_size()
+device = local_rank # Use local_rank as the device ID
+torch.cuda.set_device(device)
 
-if rank == 0:
+if dist.get_rank() == 0:
     run_name = sys.argv[1]
-    tb_log_path = f"../runs/{run_name}"
+    # NOTE: I reverted this path to the corrected one from our last discussion.
+    tb_log_path = f"./tb_logs/{run_name}"
     w = SummaryWriter(tb_log_path)
-
 class NeuralNetwork(nn.Module):
     def __init__(self, dropout=0.5):
         super().__init__()
@@ -84,8 +85,8 @@ test_dataset = datasets.CIFAR100(
     transform=test_transforms
 )
 
-train_sampler = DistributedSampler(train_dataset, num_replicas=world_size, rank=rank)
-test_sampler = DistributedSampler(test_dataset, num_replicas=world_size, rank=rank)
+train_sampler = DistributedSampler(train_dataset, num_replicas=world_size, rank=dist.get_rank())
+test_sampler = DistributedSampler(test_dataset, num_replicas=world_size, rank=dist.get_rank())
 
 train_loader = torch.utils.data.DataLoader(
     dataset=train_dataset,
@@ -102,25 +103,26 @@ test_loader = torch.utils.data.DataLoader(
 
 # actual model training
 
-single_model = NeuralNetwork(dropout=0.5).to(rank)
-model = DDP(single_model, device_ids=[rank])
+single_model = NeuralNetwork(dropout=0.5).to(device)
+model = DDP(single_model, device_ids=[device])
 optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 loss_fn = nn.CrossEntropyLoss()
 
-if rank == 0:
-    # Only get sample images and write to TensorBoard on the main process
+if dist.get_rank() == 0:
     sample_images, _ = next(iter(train_loader))
     img_grid = torchvision.utils.make_grid(sample_images)
     w.add_image('cifar100_images', img_grid)
-    w.add_graph(model, sample_images.to(rank))
+    # Use model.module and send the sample images to the correct device (device 0 for rank 0)
+    w.add_graph(model.module, sample_images.to(device))
 
 for epoch in range(epochs):
     # train
     model.train()
     total_train_loss = 0
     for images,labels in train_loader:
-        images = images.to(rank)
-        labels = labels.to(rank)
+        # --- 4. SEND DATA TO THE CORRECT DEVICE ---
+        images = images.to(device)
+        labels = labels.to(device)
         optimizer.zero_grad()
         logits = model(images)
         loss = loss_fn(logits, labels)
@@ -134,8 +136,9 @@ for epoch in range(epochs):
     total = 0
     total_test_loss = 0
     for images,labels in test_loader:
-        images = images.to(rank)
-        labels = labels.to(rank)
+        # --- 5. SEND DATA TO THE CORRECT DEVICE ---
+        images = images.to(device)
+        labels = labels.to(device)
         logits = model(images)
         loss = loss_fn(logits, labels)
         total_test_loss += loss.item()
@@ -145,7 +148,7 @@ for epoch in range(epochs):
         total += labels.size(0)
         
     # write to summary writer
-    if rank == 0:
+    if dist.get_rank() == 0:
         w.add_scalar("Train Loss", total_train_loss, epoch)
         w.add_scalar("Test Loss", total_test_loss, epoch)
         w.add_scalar("Test Accuracy", correct/total, epoch)
@@ -154,9 +157,10 @@ for epoch in range(epochs):
             if param.grad is not None:
                 w.add_histogram(f'Gradients/{name}', param.grad.data, epoch)
         
-if rank == 0:
+if dist.get_rank() == 0:
     print("training complete")
     MODEL_PATH = f"../models/{run_name}.pt"
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
     torch.save(model.module.state_dict(), MODEL_PATH)
     w.close()
     
