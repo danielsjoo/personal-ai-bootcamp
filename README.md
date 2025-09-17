@@ -19,7 +19,7 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
 
 ## Module 2: Motivation for Attention
 4. jax_imdb_sentiment.ipynb
-   1. Introduction to word embeddings
+   1. word embeddings
    2. Sigmoid_binary_cross_entropy loss
    3. Global Average pooling
 5. keras_mnist.ipynb
@@ -52,9 +52,10 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
 
 ## Module 5: Scaling and Optimizing
 12. pytorch_gpt2.ipynb
-    1.  Pytorch abstraction
-    2.  Hugging Face datasets + tokenizers
-    3.  Running remotely on HPC
+    1.  Decoder only transformers
+    2.  Pytorch abstractions
+    3.  Hugging Face datasets + tokenizers
+    4.  Running remotely on HPC
 13. cifar100_cnn.ipynb
     1.  tensorboard: visualizing metrics
     2.  distributing training
