@@ -59,7 +59,10 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
     1. tensorboard: visualizing metrics
     2. distributing training
 
-## Module 6: Alphafold
-1.  Axial Self Attention
-2.  Graph Neural Networks
-3.  Alphafold Evoformer block
+## Module 6: Advanced Attention - Alphafold
+14.  evoformer.ipynb
+    1.  Flax NNX / Jax again
+    2.  Einstein Sumnation Notation
+    3.  Gated Multi-head Attention
+    4.  Axial Attention
+    5.  Triangle Attention
