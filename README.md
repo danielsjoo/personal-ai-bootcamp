@@ -27,11 +27,11 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
 6. keras imdb_mlp.ipynb
    1. Functions api and subclassing
    2. Pre-trained models
-   3. Validation loss, early stopping
-   4. Dropout layers
-7. keras_imdb_rnn.ipynb
-   1. Recurrent Neural Networks
-   2. Long Short Term Memory
+   3.  Validation loss, early stopping
+   4.  Dropout layers
+7.  keras_imdb_rnn.ipynb
+    1.  Recurrent Neural Networks
+    2.  Long Short Term Memory
 
 ## Module 3: Basics of Self Attention
 7. keras_imdb_encoder.ipynb
@@ -39,30 +39,30 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
    2. Encoder block
 8. keras_english_spanish.ipynb
    1. Decoder block, full transformer
-   2. Causal and padding masks
+   2.  Causal and padding masks
 
 ## Module 4: Convolutional Neural Networks
 10. fashion_mnist_cnn.ipynb
-   1.  Convolution layers
-   2.  Batch normalization
+    1.  Convolution layers
+    2.  Batch normalization
 11. cifar10_cnn.ipynb
-   1.  Data augmentation
-   2.  Resnet
-   3.  Transfer learning
+    1.  Data augmentation
+    2.  Resnet
+    3.  Transfer learning
 
 ## Module 5: Scaling and Optimizing
 12. pytorch_gpt2.ipynb
-   1.  Pytorch abstraction
-   2.  Hugging Face datasets + tokenizers
-   3.  Running remotely on HPC
+    1.  Pytorch abstraction
+    2.  Hugging Face datasets + tokenizers
+    3.  Running remotely on HPC
 13. cifar100_cnn.ipynb
-   1. tensorboard: visualizing metrics
-   2. distributing training
+    1.  tensorboard: visualizing metrics
+    2.  distributing training
 
 ## Module 6: Advanced Attention - Alphafold
 14.  evoformer.ipynb
-   1.  Flax NNX / Jax again
-   2.  Einstein Sumnation Notation
-   3.  Gated Multi-head Attention
-   4.  Axial Attention
-   5.  Triangle Attention
+     1.  Flax NNX / Jax again
+     2.  Einstein Sumnation Notation
+     3.  Gated Multi-head Attention
+     4.  Axial Attention
+     5.  Triangle Attention
