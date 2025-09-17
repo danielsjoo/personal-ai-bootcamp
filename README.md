@@ -52,17 +52,17 @@ The overall philosophy of this bootcamp is to build up pieces manually before I 
 
 ## Module 5: Scaling and Optimizing
 12. pytorch_gpt2.ipynb
-    1.  Pytorch abstraction
-    2.  Hugging Face datasets + tokenizers
-    3.  Running remotely on HPC
+   1.  Pytorch abstraction
+   2.  Hugging Face datasets + tokenizers
+   3.  Running remotely on HPC
 13. cifar100_cnn.ipynb
-    1. tensorboard: visualizing metrics
-    2. distributing training
+   1. tensorboard: visualizing metrics
+   2. distributing training
 
 ## Module 6: Advanced Attention - Alphafold
 14.  evoformer.ipynb
-    1.  Flax NNX / Jax again
-    2.  Einstein Sumnation Notation
-    3.  Gated Multi-head Attention
-    4.  Axial Attention
-    5.  Triangle Attention
+   1.  Flax NNX / Jax again
+   2.  Einstein Sumnation Notation
+   3.  Gated Multi-head Attention
+   4.  Axial Attention
+   5.  Triangle Attention
